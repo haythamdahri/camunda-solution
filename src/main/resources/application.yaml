@@ -1,0 +1,5 @@
+spring.datasource.url: jdbc:h2:file:C:/DB/CAMUNDA
+
+camunda.bpm.admin-user:
+  id: root
+  password: toor
