@@ -1,0 +1,63 @@
+spring:
+  # ============================
+  # APPLICATION CONFIG
+  # ============================
+  application:
+    name: CAMUNDA-ORCHESTRATOR
+  # ============================
+  # DATASOURCE CONFIG
+  # ============================
+  datasource:
+    url: jdbc:h2:file:C:/DB/CAMUNDA;DB_CLOSE_ON_EXIT=FALSE
+  # ============================
+  # RABBIT MQ SERVER CONFIG
+  # ============================
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    virtual-host: /
+    port: 5672
+
+# ============================
+# CAMUNDA CONFIG
+# ============================
+camunda.bpm.admin-user:
+  id: root
+  password: toor
+
+com:
+  # ============================
+  # MQ QUEUES CONFIG
+  # ============================
+  tech:
+    routing-keys:
+      create_payment: createPaymentRoutingKey
+    exchanges:
+      create_payment: createPaymentExchange
+    queues:
+      create_payment: MQ.PAYMENTS.CREATE_PAYMENT
+
+  # ============================
+  # WEB CLIENTS CONFIG
+  # ============================
+  microservices:
+    fr:
+      client:
+        uri: http://localhost:8080/api/mocks/v1/clients
+
+  # ============================
+  # CRON SCHEDULING CONFIG
+  # ============================
+  cron:
+    create-payments:
+      fixed-delay: 2500
+
+# ============================
+# CAMUNDA PROPERTIES CONFIG
+# ============================
+com.camunda.process-lookup.retryable.max-attempts: 5
+com.camunda.process-lookup.retryable.backoff.delay: 100
+com.camunda.process-lookup.retryable.backoff.delay.multiplier: 10
+com.camunda.process-lookup.retryable.backoff.delay.multiplier.max-delay-expression: 30000
+

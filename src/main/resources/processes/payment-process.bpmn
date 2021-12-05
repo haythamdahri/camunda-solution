@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_1jxx907" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.11.1" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.15.0">
+  <bpmn:collaboration id="paymentProcess">
+    <bpmn:participant id="Participant_0ut80k6" name="PAYMENT PROCESS" processRef="payment-process" />
+  </bpmn:collaboration>
+  <bpmn:process id="payment-process" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_1v06yj4</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1v06yj4" sourceRef="StartEvent_1" targetRef="paymentProcessor" />
+    <bpmn:sequenceFlow id="Flow_1vunbgw" sourceRef="paymentProcessor" targetRef="paymentCollector" />
+    <bpmn:endEvent id="Event_1j0pgeq">
+      <bpmn:incoming>Flow_0kb5evw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_04enweu" sourceRef="paymentCollector" targetRef="Activity_1rrlc7t" />
+    <bpmn:sequenceFlow id="Flow_0kb5evw" sourceRef="Activity_1rrlc7t" targetRef="Event_1j0pgeq" />
+    <bpmn:serviceTask id="paymentProcessor" name="Payment Processing" camunda:class="com.microservices.fr.tech.bpmn.delegates.PaymentProcessingDelegate">
+      <bpmn:incoming>Flow_1v06yj4</bpmn:incoming>
+      <bpmn:outgoing>Flow_1vunbgw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity_1rrlc7t" name="Post Payment Processor" camunda:delegateExpression="#{postPaymentProcessor}">
+      <bpmn:incoming>Flow_04enweu</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kb5evw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:receiveTask id="paymentCollector" name="paymentCollector" camunda:asyncBefore="true" messageRef="Message_0nq6gec">
+      <bpmn:incoming>Flow_1vunbgw</bpmn:incoming>
+      <bpmn:outgoing>Flow_04enweu</bpmn:outgoing>
+    </bpmn:receiveTask>
+  </bpmn:process>
+  <bpmn:message id="Message_0nq6gec" name="PAYMENT_COLLECTOR" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="paymentProcess">
+      <bpmndi:BPMNShape id="Participant_0ut80k6_di" bpmnElement="Participant_0ut80k6" isHorizontal="true">
+        <dc:Bounds x="140" y="85" width="1260" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1v06yj4_di" bpmnElement="Flow_1v06yj4">
+        <di:waypoint x="228" y="210" />
+        <di:waypoint x="410" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1vunbgw_di" bpmnElement="Flow_1vunbgw">
+        <di:waypoint x="510" y="210" />
+        <di:waypoint x="710" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_04enweu_di" bpmnElement="Flow_04enweu">
+        <di:waypoint x="810" y="210" />
+        <di:waypoint x="1050" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kb5evw_di" bpmnElement="Flow_0kb5evw">
+        <di:waypoint x="1150" y="210" />
+        <di:waypoint x="1332" y="210" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="192" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1j0pgeq_di" bpmnElement="Event_1j0pgeq">
+        <dc:Bounds x="1332" y="192" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0yfojqi_di" bpmnElement="paymentProcessor">
+        <dc:Bounds x="410" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ua7syl_di" bpmnElement="Activity_1rrlc7t">
+        <dc:Bounds x="1050" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07atlic_di" bpmnElement="paymentCollector">
+        <dc:Bounds x="710" y="170" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
