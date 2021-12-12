@@ -2,7 +2,8 @@ package com.microservices.fr.tech.bpmn.definitions;
 
 public enum ProcessDefinitionId {
 
-    CREATE_PAYMENT("payment-process");
+    CREATE_PAYMENT("payment-process"),
+    CANCEL_PAYMENT("cancel-payment");
 
     private final String name;
 

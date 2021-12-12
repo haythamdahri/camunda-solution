@@ -28,13 +28,19 @@ public class CamundaRunningOrchestratorServiceImpl implements CamundaRunningOrch
         this.runtimeService = runtimeService;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void startProcess(ProcessDefinitionId processDefinitionId, String businessKey, Map<String, Object> variables) throws BusinessException, TechnicalException {
         this.runtimeService.startProcessInstanceByKey(processDefinitionId.toString(), businessKey, variables);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    /**@Retryable(
+    @Retryable(
             value = {RuntimeException.class},
             maxAttemptsExpression = "${com.camunda.process-lookup.retryable.max-attempts}",
             backoff = @Backoff(
@@ -42,7 +48,7 @@ public class CamundaRunningOrchestratorServiceImpl implements CamundaRunningOrch
                     multiplierExpression = "${com.camunda.process-lookup.retryable.backoff.delay.multiplier}",
                     maxDelayExpression = "${com.camunda.process-lookup.retryable.backoff.delay.max-delay-expression}"
             )
-    )*/
+    )
     public void continueProcess(String eventName, String correlationID, Map<String, Object> variables) throws BusinessException, TechnicalException {
         this.runtimeService.createMessageCorrelation(eventName)
                 .processInstanceId(correlationID)
@@ -50,6 +56,17 @@ public class CamundaRunningOrchestratorServiceImpl implements CamundaRunningOrch
                 .correlate();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void cancelProcess(String correlationId) throws BusinessException, TechnicalException {
+        this.runtimeService.suspendProcessInstanceById(correlationId);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ProcessInstance getProcessInstanceFromBusinessKeyAndDefinitionKey(
             @NonNull final String businessKey,

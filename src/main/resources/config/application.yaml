@@ -13,7 +13,7 @@ spring:
   # RABBIT MQ SERVER CONFIG
   # ============================
   rabbitmq:
-    host: localhost
+    host: 10.188.48.69
     username: guest
     password: guest
     virtual-host: /

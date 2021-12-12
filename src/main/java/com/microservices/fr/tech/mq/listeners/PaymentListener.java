@@ -31,7 +31,8 @@ public class PaymentListener {
     }
 
     @RabbitHandler
-    public void handlePaymentQueueMessage(QueueMessage<Object> paymentQueueMessage) {
+    public void handlePaymentQueueMessage(QueueMessage<Object> paymentQueueMessage) throws InterruptedException {
+        Thread.sleep(1_000);
         log.info("Start PaymentListener.handlePaymentQueueMessage(QueueMessage<PaymentRequest> paymentQueueMessage)");
         log.info("paymentQueueMessage: {}", paymentQueueMessage);
         // Update componentName

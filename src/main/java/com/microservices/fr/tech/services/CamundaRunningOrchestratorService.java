@@ -13,10 +13,11 @@ public interface CamundaRunningOrchestratorService {
 
     /**
      * Start a new BPMN Process
+     *
      * @param processDefinitionId: Process Identifier
-     * @param businessKey: Business Key Identifier
-     * @param variables: Execution variables
-     * @throws BusinessException: Business Error Exception
+     * @param businessKey:         Business Key Identifier
+     * @param variables:           Execution variables
+     * @throws BusinessException:  Business Error Exception
      * @throws TechnicalException: Technical Error Exception
      */
     void startProcess(
@@ -27,10 +28,11 @@ public interface CamundaRunningOrchestratorService {
 
     /**
      * Continue an existing BPMN Process
-     * @param eventName: Event Name
+     *
+     * @param eventName:     Event Name
      * @param correlationId: Correlation Identifier
-     * @param variables: Execution variables
-     * @throws BusinessException: Business Error Exception
+     * @param variables:     Execution variables
+     * @throws BusinessException:  Business Error Exception
      * @throws TechnicalException: Technical Error Exception
      */
     void continueProcess(
@@ -40,8 +42,20 @@ public interface CamundaRunningOrchestratorService {
     ) throws BusinessException, TechnicalException;
 
     /**
+     * Cancel an existing BPMN Process
+     *
+     * @param correlationId: Correlation Identifier
+     * @throws BusinessException:  Business Error Exception
+     * @throws TechnicalException: Technical Error Exception
+     */
+    void cancelProcess(
+            @NonNull String correlationId
+    ) throws BusinessException, TechnicalException;
+
+    /**
      * Retrieve Process Instance from provided input
-     * @param businessKey: Business Key
+     *
+     * @param businessKey:         Business Key
      * @param processDefinitionId: Process Identifier
      * @return ProcessInstance
      * @throws ProcessNotFoundException: Process Not Found Exception Error
